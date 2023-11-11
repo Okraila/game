@@ -1,48 +1,68 @@
 const startBtn = document.querySelector(".start");
 const screens = document.querySelectorAll(".screen");
 const timeList = document.querySelector(".time__list");
-const reload = document.querySelector(".game__new")
+const reload = document.querySelector(".game__new");
 const timeEl = document.querySelector("#time");
 const board = document.querySelector(".board");
 
 let time = 0;
 
 startBtn.addEventListener("click", () => {
-    screens[0].classList.add("up");
+  screens[0].classList.add("up");
 });
 
 timeList.addEventListener("click", (e) => {
-    if (e.target.classList.contains("time__btn")) { 
-        time = parseInt(e.target.getAttribute("data-time"));
-        screens[1].classList.add("up");
-        console.log("time:", time)
-        startGame();
-    }
+  if (e.target.classList.contains("time__btn")) {
+    time = parseInt(e.target.getAttribute("data-time"));
+    screens[1].classList.add("up");
+    console.log("time:", time);
+    startGame();
+  }
 });
-function startGame(){
-    setInterval (decreaseTime, 1000);
-
-    setTime(time);
+function startGame() {
+  setInterval(decreaseTime, 1000);
+  createRandomCircle();
+  setTime(time);
 }
 function decreaseTime() {
-    if (time === 0) {
-        finishGame();
-    } else {
-    let current = --time
+  if (time === 0) {
+    finishGame();
+  } else {
+    let current = --time;
     if (current < 10) {
-        current = `0${current}`;
+      current = `0${current}`;
     }
     setTime(current);
-    }
+  }
 }
 function setTime(value) {
-    timeEl.innerHTML = `00:${value}`
+  timeEl.innerHTML = `00:${value}`;
 }
 function finishGame() {
-    board.innerHTML = `<h3> Ваш рахунок </h3>`
+  timeEl.parentNode.classList.add("hide");
+  board.innerHTML = `<h3> Ваш рахунок </h3>`;
 }
 
-setTime(time);
+function createRandomCircle() {
+  const circle = document.createElement("div");
+  const size = getRandomNumber(20, 80);
+  const { width, height } = board.getBoundingClientRect();
+  const x = getRandomNumber(0, width - size);
+  const y = getRandomNumber(0, height - size);
+
+  circle.classList.add("circle");
+  circle.style.width = `${size}px`;
+  circle.style.height = `${size}px`;
+  circle.style.top = `${y}px`;
+  circle.style.left = `${x}px`;
+
+  board.append(circle);
+}
+
+function getRandomNumber(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
+}
+
 reload.addEventListener("click", () => {
-    location.reload();
-})
+  location.reload();
+});
