@@ -95,7 +95,7 @@
     transition: opacity 0.5s linear;
 }
 .circle{
-    background-image:url("./ball.svg");
+    background-image:url("./ball.png");
     position:absolute;
     background-size:cover;
     cursor:pointer;
